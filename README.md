@@ -2,7 +2,7 @@
 
 A lightweight desktop app for logging runs and visualizing your progress — built with Python, [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter), and Matplotlib.
 
-![Run Tracker icon](running_iconF.png)
+![Run Tracker icon](icons/running_icon.png)
 
 ## Features
 
@@ -21,7 +21,7 @@ A lightweight desktop app for logging runs and visualizing your progress — bui
 ## Requirements
 
 - Python 3.10+
-- [Tkinter](https://docs.python.org/3/library/tkinter.html) (usually bundled with Python; on Ubuntu/Debian: `sudo apt install python3-tk`)
+- [Tkinter](https://docs.python.org/3/library/tkinter.html) — bundled by default with Python on Windows and macOS (official python.org installers). On Linux, install it separately: `sudo apt install python3-tk` (Debian/Ubuntu) or your distro's equivalent.
 
 ## Installation
 
@@ -55,33 +55,49 @@ Use the **Edit** / **Delete** buttons on any row in the table.
 ### Viewing analytics
 Switch to the **Analytics Dashboard** tab for charts and summary stats. Use the segmented control to switch between All Time / This Month / This Week.
 
-## Running it from your taskbar (Linux)
+## Running it from your taskbar / dock / Start Menu
 
-A sample `.desktop` launcher setup is described in this repo's history — create a file like this (update the paths for your system) and place it at `~/.local/share/applications/run-tracker.desktop`:
+Install scripts are included for all three major platforms. Each one auto-detects where you cloned the repo, so there's nothing to edit by hand.
 
-```ini
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Run Tracker
-Comment=Run Tracker & Analytics
-Exec=python3 /path/to/run-tracker/Run.py
-Path=/path/to/run-tracker
-Icon=/path/to/run-tracker/running_iconF.png
-Terminal=false
-Categories=Utility;
-StartupNotify=true
+### Linux
+```bash
+chmod +x install-launcher.sh
+./install-launcher.sh
 ```
+Then search for **"Run Tracker"** in your app menu (Activities/Start), right-click it, and choose **Add to Favorites** (or your desktop environment's equivalent) to pin it to the taskbar/dock.
 
-Then run `update-desktop-database ~/.local/share/applications` and search for "Run Tracker" in your app menu — right-click to pin it to your taskbar/dock.
+Prefer to set it up manually? `run-tracker.desktop.template` shows the file format — copy it to `~/.local/share/applications/run-tracker.desktop`, replace the `/path/to/run-tracker` placeholders with your actual clone location, then run `update-desktop-database ~/.local/share/applications`.
+
+### macOS
+```bash
+chmod +x install-launcher-mac.sh
+./install-launcher-mac.sh
+```
+This builds a proper `Run Tracker.app` bundle in `~/Applications`. Open it in Finder and drag it onto the Dock to pin it.
+
+### Windows
+Open PowerShell in the cloned folder and run:
+```powershell
+powershell -ExecutionPolicy Bypass -File install-launcher.ps1
+```
+This creates shortcuts on your Desktop and in the Start Menu. To pin it to the taskbar, right-click either shortcut and choose **Pin to taskbar**.
+
+> Requires Python installed from [python.org](https://www.python.org/downloads/) with "Add python.exe to PATH" checked during setup.
 
 ## Project structure
 
 ```
 run-tracker/
-├── Run.py                  # Main application
-├── runs.example.json       # Sample data format (your real runs.json is gitignored)
-└── running_iconF.png       # App icon
+├── Run.py                          # Main application
+├── runs.example.json               # Sample data format (your real runs.json is gitignored)
+├── icons/
+│   ├── running_icon.png            # App icon (Linux / general use)
+│   ├── running_icon.ico            # App icon (Windows)
+│   └── running_icon.icns           # App icon (macOS)
+├── install-launcher.sh             # Taskbar/app-menu launcher installer (Linux)
+├── install-launcher-mac.sh         # Dock launcher installer (macOS)
+├── install-launcher.ps1            # Desktop/Start Menu shortcut installer (Windows)
+└── run-tracker.desktop.template    # Reference .desktop file for manual Linux setup
 ```
 
 ## Data format

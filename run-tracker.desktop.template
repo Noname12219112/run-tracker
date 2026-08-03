@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Run Tracker
+Comment=Run Tracker & Analytics
+Exec=python3 /path/to/run-tracker/Run.py
+Path=/path/to/run-tracker
+Icon=/path/to/run-tracker/icons/running_icon.png
+Terminal=false
+Categories=Utility;
+StartupNotify=true

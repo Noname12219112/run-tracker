@@ -1,0 +1,5 @@
+runs.json
+running-tracker.desktop
+__pycache__/
+*.pyc
+.venv/

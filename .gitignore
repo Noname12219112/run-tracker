@@ -3,3 +3,4 @@ running-tracker.desktop
 __pycache__/
 *.pyc
 .venv/
+EXP.py

@@ -1,8 +1,8 @@
-# 🏃 Running Tracker & Analytics
+# 🏃 Run Tracker & Analytics
 
 A lightweight desktop app for logging runs and visualizing your progress — built with Python, [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter), and Matplotlib.
 
-![Running Tracker icon](running_iconF.png)
+![Run Tracker icon](running_iconF.png)
 
 ## Features
 
@@ -26,8 +26,8 @@ A lightweight desktop app for logging runs and visualizing your progress — bui
 ## Installation
 
 ```bash
-git clone https://github.com/charithsreddy2404-crypto/running-tracker.git
-cd running-tracker
+git clone https://github.com/charithsreddy2404-crypto/run-tracker.git
+cd run-tracker
 
 pip install customtkinter matplotlib
 ```
@@ -57,28 +57,28 @@ Switch to the **Analytics Dashboard** tab for charts and summary stats. Use the 
 
 ## Running it from your taskbar (Linux)
 
-A sample `.desktop` launcher setup is described in this repo's history — create a file like this (update the paths for your system) and place it at `~/.local/share/applications/running-tracker.desktop`:
+A sample `.desktop` launcher setup is described in this repo's history — create a file like this (update the paths for your system) and place it at `~/.local/share/applications/run-tracker.desktop`:
 
 ```ini
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Running Tracker
-Comment=Running Tracker & Analytics
-Exec=python3 /path/to/running-tracker/Run.py
-Path=/path/to/running-tracker
-Icon=/path/to/running-tracker/running_iconF.png
+Name=Run Tracker
+Comment=Run Tracker & Analytics
+Exec=python3 /path/to/run-tracker/Run.py
+Path=/path/to/run-tracker
+Icon=/path/to/run-tracker/running_iconF.png
 Terminal=false
 Categories=Utility;
 StartupNotify=true
 ```
 
-Then run `update-desktop-database ~/.local/share/applications` and search for "Running Tracker" in your app menu — right-click to pin it to your taskbar/dock.
+Then run `update-desktop-database ~/.local/share/applications` and search for "Run Tracker" in your app menu — right-click to pin it to your taskbar/dock.
 
 ## Project structure
 
 ```
-running-tracker/
+run-tracker/
 ├── Run.py                  # Main application
 ├── runs.example.json       # Sample data format (your real runs.json is gitignored)
 └── running_iconF.png       # App icon

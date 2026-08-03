@@ -178,7 +178,7 @@ class RunningTrackerApp(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("🏃 Running Tracker & Analytics")
+        self.title("🏃 Run Tracker & Analytics")
         self.geometry("1200x820")
         self.minsize(1080, 650)
         self.resizable(True, True)

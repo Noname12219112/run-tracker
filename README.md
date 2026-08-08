@@ -12,7 +12,7 @@ A lightweight desktop app for logging runs and visualizing your progress — bui
 - **Analytics dashboard** — auto-generated charts for distance, pace, calories, and incline over time, with hover tooltips showing exact values
 - **Summary cards** — totals for this week, this month, and all-time at a glance
 - **Fast & lightweight** — table rows and dialogs use plain Tkinter widgets under the hood for snappy add/edit/delete, and heavier libraries (Matplotlib) only load when you open the Analytics tab
-- **Local-only data** — everything is stored in a local `runs.json` file; nothing leaves your machine
+- **Local-only data** — everything is stored in a hidden, obfuscated `.runs.dat` file next to the script; nothing leaves your machine
 
 ## Screenshots
 
@@ -44,7 +44,7 @@ pip install customtkinter matplotlib
 python3 Run.py
 ```
 
-On first run, if no `runs.json` exists yet, the app seeds itself with a few sample entries so the table and charts aren't empty. You can rename `runs.example.json` to `runs.json` for a starting template, or just start logging — the file is created automatically.
+On first run, the app seeds itself with a few sample entries so the table and charts aren't empty, and creates `.runs.dat` (hidden) to store your real data from then on. `runs.example.json` is not read by the app — it's included purely as a reference for the data structure (see **Data format** below).
 
 ### Adding a run
 Fill in the fields on the left panel (use the 📅 button for a quick date picker) and click **Save Run Log**.
@@ -89,7 +89,7 @@ This creates shortcuts on your Desktop and in the Start Menu. To pin it to the t
 ```
 run-tracker/
 ├── Run.py                          # Main application
-├── runs.example.json               # Sample data format (your real runs.json is gitignored)
+├── runs.example.json               # Reference only — shows the data structure (see Data format below); not read by the app
 ├── icons/
 │   ├── running_icon.png            # App icon (Linux / general use)
 │   ├── running_icon.ico            # App icon (Windows)
@@ -102,7 +102,9 @@ run-tracker/
 
 ## Data format
 
-Each run is stored as a simple JSON object:
+Your actual run data is stored in a hidden file, `.runs.dat`, next to `Run.py`. It's base64-obfuscated on disk — not plain readable text, and not tracked by git — so it won't show up in normal folder browsing and won't accidentally get committed.
+
+`runs.example.json` (tracked in this repo) shows the underlying data structure for reference — each run is logically a simple object like this, even though it isn't stored in this exact plain-text form:
 
 ```json
 {
@@ -113,6 +115,8 @@ Each run is stored as a simple JSON object:
   "calories": "130 kcal"
 }
 ```
+
+> Note: `.runs.dat` obfuscation deters casual viewing (e.g. someone browsing your files), but it is **not encryption** — anyone who knows the format can decode it. If you need real protection, that would require password-based encryption, which isn't implemented here.
 
 ## License
 

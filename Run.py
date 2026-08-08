@@ -5,6 +5,7 @@ import calendar
 import re
 import json
 import os
+import base64
 import threading
 
 # NOTE: matplotlib is intentionally NOT imported here. Importing it (and
@@ -15,9 +16,25 @@ import threading
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
-# Ensure DATA_FILE is saved in the exact folder where Run.py resides
+# Run data is stored as a hidden, lightly-obfuscated file next to the script
+# (rather than a plainly-named, plainly-readable runs.json) so it doesn't
+# show up in normal folder browsing and isn't readable by just opening it
+# in a text editor. NOTE: this is obfuscation, not real encryption — it
+# stops casual viewing, not a determined or technical reader.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_FILE = os.path.join(BASE_DIR, "runs.json")
+DATA_FILE = os.path.join(BASE_DIR, ".runs.dat")
+
+# One-time migration: earlier versions stored plain, visible runs.json.
+_LEGACY_DATA_FILE = os.path.join(BASE_DIR, "runs.json")
+if not os.path.exists(DATA_FILE) and os.path.exists(_LEGACY_DATA_FILE):
+    try:
+        with open(_LEGACY_DATA_FILE, "r") as _f:
+            _legacy_data = _f.read()
+        with open(DATA_FILE, "wb") as _f:
+            _f.write(base64.b64encode(_legacy_data.encode("utf-8")))
+        os.remove(_LEGACY_DATA_FILE)
+    except Exception:
+        pass
 
 # Shared color palette so plain-tk "fast" widgets match the CTk dark theme
 COL_BG = "#1a1a1a"
@@ -253,8 +270,9 @@ class RunningTrackerApp(ctk.CTk):
         loaded_data = []
         if os.path.exists(DATA_FILE):
             try:
-                with open(DATA_FILE, "r") as f:
-                    loaded_data = json.load(f)
+                with open(DATA_FILE, "rb") as f:
+                    raw = base64.b64decode(f.read())
+                loaded_data = json.loads(raw.decode("utf-8"))
             except Exception:
                 pass
 
@@ -271,13 +289,15 @@ class RunningTrackerApp(ctk.CTk):
 
     def save_runs(self):
         """Writes the run log to disk on a background thread so add/edit/delete
-        never has to wait on file I/O before the UI updates."""
+        never has to wait on file I/O before the UI updates. Stored as a
+        hidden, base64-obfuscated file rather than plain readable JSON."""
         data_snapshot = list(self.runs)
 
         def _write():
             try:
-                with open(DATA_FILE, "w") as f:
-                    json.dump(data_snapshot, f, indent=4)
+                encoded = base64.b64encode(json.dumps(data_snapshot, indent=4).encode("utf-8"))
+                with open(DATA_FILE, "wb") as f:
+                    f.write(encoded)
             except Exception as e:
                 print(f"Error saving runs: {e}")
 

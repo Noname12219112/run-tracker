@@ -57,32 +57,18 @@ Switch to the **Analytics Dashboard** tab for charts and summary stats. Use the 
 
 ## Running it from your taskbar / dock / Start Menu
 
-Install scripts are included for all three major platforms. Each one auto-detects where you cloned the repo, so there's nothing to edit by hand.
+One installer, one command, on any of the three platforms:
 
-### Linux
 ```bash
-chmod +x install-launcher.sh
-./install-launcher.sh
+python3 install.py
 ```
-Then search for **"Run Tracker"** in your app menu (Activities/Start), right-click it, and choose **Add to Favorites** (or your desktop environment's equivalent) to pin it to the taskbar/dock.
 
-Prefer to set it up manually? `run-tracker.desktop.template` shows the file format — copy it to `~/.local/share/applications/run-tracker.desktop`, replace the `/path/to/run-tracker` placeholders with your actual clone location, then run `update-desktop-database ~/.local/share/applications`.
+It detects your OS automatically and does the right thing:
+- **Linux** — installs a launcher to your app menu. Search **"Run Tracker"** in Activities/Start, right-click it, and choose **Add to Favorites** (or your desktop environment's equivalent) to pin it to the taskbar/dock.
+- **macOS** — builds a proper `Run Tracker.app` bundle in `~/Applications`. Open it in Finder and drag it onto the Dock to pin it.
+- **Windows** — creates shortcuts on your Desktop and in the Start Menu. Right-click either one and choose **Pin to taskbar**. (Requires Python installed from [python.org](https://www.python.org/downloads/) with "Add python.exe to PATH" checked during setup.)
 
-### macOS
-```bash
-chmod +x install-launcher-mac.sh
-./install-launcher-mac.sh
-```
-This builds a proper `Run Tracker.app` bundle in `~/Applications`. Open it in Finder and drag it onto the Dock to pin it.
-
-### Windows
-Open PowerShell in the cloned folder and run:
-```powershell
-powershell -ExecutionPolicy Bypass -File install-launcher.ps1
-```
-This creates shortcuts on your Desktop and in the Start Menu. To pin it to the taskbar, right-click either shortcut and choose **Pin to taskbar**.
-
-> Requires Python installed from [python.org](https://www.python.org/downloads/) with "Add python.exe to PATH" checked during setup.
+Linux users who'd rather set it up manually: `run-tracker.desktop.template` shows the file format — copy it to `~/.local/share/applications/run-tracker.desktop`, replace the `/path/to/run-tracker` placeholders with your actual clone location, then run `update-desktop-database ~/.local/share/applications`.
 
 ## Project structure
 
@@ -94,9 +80,7 @@ run-tracker/
 │   ├── running_icon.png            # App icon (Linux / general use)
 │   ├── running_icon.ico            # App icon (Windows)
 │   └── running_icon.icns           # App icon (macOS)
-├── install-launcher.sh             # Taskbar/app-menu launcher installer (Linux)
-├── install-launcher-mac.sh         # Dock launcher installer (macOS)
-├── install-launcher.ps1            # Desktop/Start Menu shortcut installer (Windows)
+├── install.py                      # Launcher installer for Linux, macOS, and Windows (auto-detects OS)
 └── run-tracker.desktop.template    # Reference .desktop file for manual Linux setup
 ```
 

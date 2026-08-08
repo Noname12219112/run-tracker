@@ -14,10 +14,6 @@ A lightweight desktop app for logging runs and visualizing your progress — bui
 - **Fast & lightweight** — table rows and dialogs use plain Tkinter widgets under the hood for snappy add/edit/delete, and heavier libraries (Matplotlib) only load when you open the Analytics tab
 - **Local-only data** — everything is stored in a hidden, obfuscated `.runs.dat` file next to the script; nothing leaves your machine
 
-## Screenshots
-
-*(Add a screenshot or two here once you have some — drag an image into this README on GitHub, or place it in the repo and reference it like the icon above.)*
-
 ## Requirements
 
 - Python 3.10+

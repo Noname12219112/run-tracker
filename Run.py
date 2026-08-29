@@ -902,8 +902,6 @@ class RunningTrackerApp(ctk.CTk):
         dlg = tk.Toplevel(self)
         dlg.configure(bg=COL_BG)
         dlg.title("Edit Run")
-        dlg.geometry("360x420")
-        dlg.resizable(False, False)
         dlg.transient(self)
         dlg.grab_set()
 
@@ -1026,6 +1024,16 @@ class RunningTrackerApp(ctk.CTk):
             bg=COL_ROW_A, fg="white", activebackground="#374151", activeforeground="white",
             cursor="hand2", command=dlg.destroy
         ).pack(side="right", expand=True, fill="x", padx=(4, 0), ipady=4)
+
+        # Size the window to what it actually needs (same fix as the
+        # calendar popup) -- a hardcoded pixel guess was clipping the
+        # Save/Cancel buttons and calendar button off the dialog.
+        dlg.update_idletasks()
+        req_w = dlg.winfo_reqwidth() + 16
+        req_h = dlg.winfo_reqheight() + 16
+        dlg.geometry(f"{req_w}x{req_h}")
+        dlg.minsize(req_w, req_h)
+        dlg.resizable(False, False)
 
 
 if __name__ == "__main__":
